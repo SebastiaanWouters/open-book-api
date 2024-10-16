@@ -1,4 +1,4 @@
-import type { SearchResult } from "./types.ts";
+import type { SearchOptions, SearchResult } from "./types.ts";
 import { DOMParser } from "@deno/dom";
 
 /**
@@ -6,12 +6,14 @@ import { DOMParser } from "@deno/dom";
  */
 export async function search(
   query: string,
-  type: "book" | "paper" = "book",
-  n: number = 10, // Default number of results
+  options?: SearchOptions,
 ): Promise<SearchResult[]> {
   const url = new URL("https://annas-archive.org/search");
   url.searchParams.set("q", query);
-  url.searchParams.set("index", type === "book" ? "" : "journals");
+  url.searchParams.set(
+    "index",
+    options?.type === "article" ? "journals" : "book",
+  );
 
   const response = await fetch(url);
   const text = await response.text();
@@ -20,7 +22,7 @@ export async function search(
   // Extract results from the DOM
   const results: SearchResult[] = [];
   const items = doc.querySelectorAll('a[href^="/md5"]'); // Outer selector for result items
-  for (let i = 0; i < Math.min(n, items.length); i++) {
+  for (let i = 0; i < Math.min(options?.amount ?? 10, items.length); i++) {
     const item = items[i];
 
     const title = item.querySelector("h3")?.textContent ?? "No Title"; // Title inside h3
