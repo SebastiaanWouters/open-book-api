@@ -1,0 +1,13 @@
+{
+  "name": "open-book-api",
+  "version": "0.1.0",
+  "exports": "./mod.ts",
+  "tasks": {
+    "dev": "deno test --watch mod_test.ts"
+  },
+  "license": "MIT",
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1"
+    "@deno/dom": "jsr:@b-fuze/deno-dom"
+  }
+}
