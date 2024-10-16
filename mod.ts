@@ -1,6 +1,9 @@
 import type { SearchResult } from "./types.ts";
 import { DOMParser } from "@deno/dom";
 
+/**
+ * search anna's archive based on a query, type of results (books / papers) and amount based on params
+ */
 export async function search(
   query: string,
   type: "book" | "paper" = "book",
