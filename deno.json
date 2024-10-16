@@ -1,5 +1,5 @@
 {
-  "name": "open-book-api",
+  "name": "@sebas/open-book-api",
   "version": "0.1.0",
   "exports": "./mod.ts",
   "tasks": {
@@ -8,6 +8,6 @@
   "license": "MIT",
   "imports": {
     "@std/assert": "jsr:@std/assert@1"
-    "@deno/dom": "jsr:@b-fuze/deno-dom"
+    "@deno/dom": "jsr:@b-fuze/deno-dom@0.1.48"
   }
 }
