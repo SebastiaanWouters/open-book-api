@@ -43,3 +43,12 @@ export async function search(
 
   return results;
 }
+
+export async function download(md5: string, secret: string): Promise<unknown> {
+  const url = new URL("https://annas-archive.org/dyn/api/fast_download.json");
+  url.searchParams.set("md5", md5);
+  url.searchParams.set("secret_key", secret);
+  const response = await fetch(url);
+  const result = await response.json();
+  return result;
+}

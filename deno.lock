@@ -1,7 +1,7 @@
 {
   "version": "4",
   "specifiers": {
-    "jsr:@b-fuze/deno-dom@*": "0.1.48",
+    "jsr:@b-fuze/deno-dom@0.1.48": "0.1.48",
     "jsr:@std/assert@1": "1.0.6",
     "jsr:@std/internal@^1.0.4": "1.0.4"
   },
@@ -21,7 +21,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@b-fuze/deno-dom@*",
+      "jsr:@b-fuze/deno-dom@0.1.48",
       "jsr:@std/assert@1"
     ]
   }
