@@ -1,6 +1,6 @@
 {
   "name": "@sebas/open-book-api",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "exports": "./mod.ts",
   "tasks": {
     "dev": "deno test --watch mod_test.ts"
@@ -9,6 +9,6 @@
   "imports": {
     "@std/assert": "jsr:@std/assert@1"
     "@deno/dom": "jsr:@b-fuze/deno-dom@0.1.48"
-    "file-types": "https://deno.land/x/file_extension/mod.ts"
+    "file-types": "npm:@ultirequiem/file-extension"
   }
 }

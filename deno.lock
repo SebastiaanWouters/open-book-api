@@ -3,7 +3,8 @@
   "specifiers": {
     "jsr:@b-fuze/deno-dom@0.1.48": "0.1.48",
     "jsr:@std/assert@1": "1.0.6",
-    "jsr:@std/internal@^1.0.4": "1.0.4"
+    "jsr:@std/internal@^1.0.4": "1.0.4",
+    "npm:@ultirequiem/file-extension@*": "2.1.0"
   },
   "jsr": {
     "@b-fuze/deno-dom@0.1.48": {
@@ -19,6 +20,11 @@
       "integrity": "62e8e4911527e5e4f307741a795c0b0a9e6958d0b3790716ae71ce085f755422"
     }
   },
+  "npm": {
+    "@ultirequiem/file-extension@2.1.0": {
+      "integrity": "sha512-AzFLe+r0mnxVKoOvPGWMyNWIYAGTbbzbNZweSAQK7MxYlT2HGV5b7BrF/mg8B4GKklsUEDJuqamonjWxWNS1Hw=="
+    }
+  },
   "redirects": {
     "https://deno.land/x/file_extension/mod.ts": "https://deno.land/x/file_extension@v2.1.0/mod.ts"
   },
@@ -28,7 +34,8 @@
   "workspace": {
     "dependencies": [
       "jsr:@b-fuze/deno-dom@0.1.48",
-      "jsr:@std/assert@1"
+      "jsr:@std/assert@1",
+      "npm:@ultirequiem/file-extension@*"
     ]
   }
 }
