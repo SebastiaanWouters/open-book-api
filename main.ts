@@ -22,4 +22,7 @@ if (dl.error) {
   console.error(dl.error.message);
 }
 console.log(JSON.stringify(dl));
-await Deno.writeFile("./download.pdf", new Uint8Array(dl.result!.content));
+await Deno.writeFile(
+  "./download." + dl.result?.extension,
+  new Uint8Array(dl.result!.content),
+);

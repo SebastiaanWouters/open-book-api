@@ -19,6 +19,12 @@
       "integrity": "62e8e4911527e5e4f307741a795c0b0a9e6958d0b3790716ae71ce085f755422"
     }
   },
+  "redirects": {
+    "https://deno.land/x/file_extension/mod.ts": "https://deno.land/x/file_extension@v2.1.0/mod.ts"
+  },
+  "remote": {
+    "https://deno.land/x/file_extension@v2.1.0/mod.ts": "a674ce4457177809fec87b64ef7109aa0fc7cd4161fb00b30e7efc3004ae48ca"
+  },
   "workspace": {
     "dependencies": [
       "jsr:@b-fuze/deno-dom@0.1.48",

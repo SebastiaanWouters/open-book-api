@@ -1,4 +1,5 @@
 import type { DownloadResult, SearchOptions, SearchResult } from "./types.ts";
+import { fileExtension } from "file-types";
 import { DOMParser } from "@deno/dom";
 
 /**
@@ -60,6 +61,8 @@ export async function download(
   }
   const result = await response.json();
   const content_raw = await fetch(result.download_url);
+  const extension = fileExtension(result.download_url);
+
   if (!content_raw.ok) {
     return {
       result: null,
@@ -70,6 +73,7 @@ export async function download(
   return {
     result: {
       content: content_array,
+      extension,
       extra: {
         downloads_left: result.account_fast_download_info.downloads_left,
         recent_downloads:
