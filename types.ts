@@ -9,3 +9,13 @@ export interface SearchOptions {
   type?: "book" | "article";
   amount?: number;
 }
+
+export interface DownloadResult {
+  content: ArrayBuffer;
+  extra: ExtraDownloadInfo;
+}
+
+export interface ExtraDownloadInfo {
+  downloads_left: number;
+  recent_downloads: string[];
+}

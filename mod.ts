@@ -1,4 +1,4 @@
-import type { SearchOptions, SearchResult } from "./types.ts";
+import type { DownloadResult, SearchOptions, SearchResult } from "./types.ts";
 import { DOMParser } from "@deno/dom";
 
 /**
@@ -44,11 +44,38 @@ export async function search(
   return results;
 }
 
-export async function download(md5: string, key: string): Promise<unknown> {
+export async function download(
+  md5: string,
+  key: string,
+): Promise<{ result: DownloadResult | null; error: Error | null }> {
   const url = new URL("https://annas-archive.org/dyn/api/fast_download.json");
   url.searchParams.set("md5", md5);
   url.searchParams.set("key", key);
   const response = await fetch(url);
+  if (!response.ok) {
+    return {
+      result: null,
+      error: new Error("Failed Download"),
+    };
+  }
   const result = await response.json();
-  return result;
+  const content_raw = await fetch(result.download_url);
+  if (!content_raw.ok) {
+    return {
+      result: null,
+      error: new Error("Failed Download"),
+    };
+  }
+  const content_array = await content_raw.arrayBuffer();
+  return {
+    result: {
+      content: content_array,
+      extra: {
+        downloads_left: result.account_fast_download_info.downloads_left,
+        recent_downloads:
+          result.account_fast_download_info.recently_downloaded_md5s,
+      },
+    },
+    error: null,
+  };
 }
