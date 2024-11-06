@@ -9,6 +9,6 @@
   "imports": {
     "@std/assert": "jsr:@std/assert@1"
     "@deno/dom": "jsr:@b-fuze/deno-dom@0.1.48"
-    "file-types": "npm:@ultirequiem/file-extension"
+    "file-types": "npm:@ultirequiem/file-extension@2.1.0"
   }
 }
