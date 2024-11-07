@@ -85,3 +85,5 @@ export async function download(
     error: null,
   };
 }
+
+export type { DownloadResult, SearchOptions, SearchResult };
