@@ -14,6 +14,7 @@ export interface DownloadResult {
   content: string;
   extension: string;
   extra: ExtraDownloadInfo;
+  url: string;
 }
 
 export interface ExtraDownloadInfo {

@@ -78,6 +78,7 @@ export async function download(
   return {
     result: {
       content: b64,
+      url: result.download_url,
       extension,
       extra: {
         downloads_left: result.account_fast_download_info.downloads_left,
