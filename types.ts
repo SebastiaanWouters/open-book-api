@@ -1,23 +1,19 @@
 export interface SearchResult {
+  meta: string;
   md5: string;
   title: string;
   author: string;
   cover?: string;
+  publisher: string;
 }
 
 export interface SearchOptions {
   type?: "book" | "article";
+  ext?: "pdf" | "epub";
+  page?: number;
   amount?: number;
 }
 
 export interface DownloadResult {
-  content: string;
-  extension: string;
-  extra: ExtraDownloadInfo;
   url: string;
-}
-
-export interface ExtraDownloadInfo {
-  downloads_left: number;
-  recent_downloads: string[];
 }
