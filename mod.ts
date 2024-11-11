@@ -1,6 +1,7 @@
 import type { DownloadResult, SearchOptions, SearchResult } from "./types.ts";
 import { fileExtension } from "file-types";
 import { DOMParser } from "@deno/dom";
+import { decodeBase64, encodeBase64 } from "base64";
 
 /**
  * search anna's archive based on a query, type of results (books / papers) and amount based on params
@@ -71,10 +72,12 @@ export async function download(
       error: new Error("Failed Download"),
     };
   }
-  const content_array = await content_raw.arrayBuffer();
+  const content_text = await content_raw.text();
+  const b64 = encodeBase64(content_text);
+
   return {
     result: {
-      content: content_array,
+      content: b64,
       extension,
       extra: {
         downloads_left: result.account_fast_download_info.downloads_left,
@@ -84,6 +87,35 @@ export async function download(
     },
     error: null,
   };
+}
+
+/**
+ * Converts base64-encoded content to a downloadable data URL
+ * and triggers a download in the browser.
+ *
+ * @param base64Content - The base64 encoded content of the file.
+ * @param fileType - The MIME type of the file (e.g., 'application/pdf', 'image/png', etc.).
+ * @returns a dataURL that can be used as href attribute in the dom.
+ */
+export function createDownloadLink(
+  base64Content: string,
+  fileType: string,
+): string {
+  // Decode the base64 content into binary data
+  const byteArrays = decodeBase64(base64Content);
+
+  const type = `application/${fileType}${fileType === "epub" ? "+zip" : ""}`;
+  console.log(type);
+  // Create a Blob object from the binary data
+  const blob = new Blob([byteArrays], {
+    type: "text/html",
+  });
+
+  // Create a downloadable URL from the Blob
+  const dataURL = URL.createObjectURL(blob);
+
+  // Return the data URL in case it needs to be used elsewhere
+  return dataURL;
 }
 
 export type { DownloadResult, SearchOptions, SearchResult };

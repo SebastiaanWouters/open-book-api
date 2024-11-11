@@ -11,7 +11,7 @@ export interface SearchOptions {
 }
 
 export interface DownloadResult {
-  content: ArrayBuffer;
+  content: string;
   extension: string;
   extra: ExtraDownloadInfo;
 }
