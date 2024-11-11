@@ -1,7 +1,7 @@
 import type { DownloadResult, SearchOptions, SearchResult } from "./types.ts";
 import { fileExtension } from "file-types";
 import { DOMParser } from "@deno/dom";
-import { decodeBase64 } from "base64";
+import { decodeBase64, encodeBase64 } from "base64";
 
 /**
  * search anna's archive based on a query, type of results (books / papers) and amount based on params
@@ -73,7 +73,7 @@ export async function download(
     };
   }
   const content_text = await content_raw.text();
-  const b64 = btoa(content_text);
+  const b64 = encodeBase64(content_text);
 
   return {
     result: {
