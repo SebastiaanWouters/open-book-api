@@ -54,9 +54,32 @@ export async function search(
     const cover = item.querySelector("img")?.getAttribute("src") ??
       undefined;
 
+    let doi: string | undefined = undefined;
+
+    if (options?.type === "article") {
+      const articleUrl = "https://annas-archive.org/md5/" + md5;
+      const articleHtml = await fetch(articleUrl).then((res) => res.text());
+      const doc = new DOMParser().parseFromString(articleHtml, "text/html");
+      // Find the parent element with the class 'js-md5-codes-tabs'
+      const parentElement = doc.querySelector('.js-md5-codes-tabs') as HTMLElement;
+
+      // If the parent element exists, search for the "DOI" element inside it
+      if (parentElement) {
+        const doiElement = Array.from(parentElement.children).find((el) => el.firstChild!.textContent!.trim() === 'DOI');
+
+        // Check if the "DOI" element is found and has a next sibling
+        if (doiElement && doiElement.firstChild!.nextSibling) {
+          // Get the text content of the next sibling
+          const nextSiblingText = doiElement.firstChild!.nextSibling.textContent!.trim();
+          doi = nextSiblingText;
+        }
+      }
+    }
+
     results.push({
       meta,
       md5,
+      doi,
       title,
       author,
       publisher,
@@ -68,35 +91,49 @@ export async function search(
 }
 
 export async function download(
-  md5: string,
+  id: string,
+  type: "book" | "article",
   key: string,
 ): Promise<{ result: DownloadResult | null; error: Error | null }> {
-  const url = new URL("https://corsproxy.io/?" + encodeURIComponent("https://annas-archive.org/dyn/api/fast_download.json"));
-  url.searchParams.set("md5", md5);
-  url.searchParams.set("key", key);
-  const response = await fetch(url);
+  if (type === "book") {
+    const url = new URL("https://annas-archive.org/dyn/api/fast_download.json");
+    url.searchParams.set("md5", id);
+    url.searchParams.set("key", key);
+    const response = await fetch(url, { mode: 'no-cors' });
 
-  if (!response.ok) {
-    return {
-      result: null,
-      error: new Error("Failed Download"),
-    };
+    if (response.ok) {
+      const result = await response.json();
+      if (result.download_url) {
+        return {
+          result: {
+            url: result.download_url,
+          },
+          error: null,
+        };
+      }
+    }
+  } else {
+    const url = new URL(`https://annas-archive.org/scidb/${id}`);
+    const response = await fetch(url, { mode: 'no-cors' });
+    if (response.ok) {
+      const text = await response.text();
+      const doc = new DOMParser().parseFromString(text, "text/html");
+      const url = doc.querySelector('#left-side-menu > ul > li a[href^="https://"]')?.getAttribute("href");
+      if (url) {
+        return {
+          result: {
+            url: url,
+          },
+          error: null,
+        };
+      }
+    }
   }
-  const result = await response.json();
-
-  if (!result.download_url) {
-    return {
-      result: null,
-      error: new Error("Invalid Download"),
-    };
-  }
-
   return {
-    result: {
-      url: result.download_url,
-    },
-    error: null,
+    result: null,
+    error: new Error("Failed Download"),
   };
+
 }
 
 export type { DownloadResult, SearchOptions, SearchResult };

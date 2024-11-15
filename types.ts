@@ -4,6 +4,7 @@ export interface SearchResult {
         title: string;
         author: string;
         cover?: string;
+        doi?: string;
         publisher: string;
 }
 
