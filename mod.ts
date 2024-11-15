@@ -44,7 +44,7 @@ export async function search(
       "line-clamp-[2] leading-[1.2] text-[10px] lg:text-xs text-gray-500",
     )[0]?.textContent ??
       "No Meta"; // Title inside h3
-    const title = item.querySelector("h3")?.textContent ?? "No Title"; // Title inside h3
+    const title = item.querySelector("h3")?.textContent ?? "Unknown Title"; // Title inside h3
     const md5 = item.getAttribute("href")?.slice(5) ??
       "empty";
     const author = item.querySelector("div.italic")?.textContent ??
@@ -71,7 +71,7 @@ export async function download(
   md5: string,
   key: string,
 ): Promise<{ result: DownloadResult | null; error: Error | null }> {
-  const url = new URL("https://annas-archive.org/dyn/api/fast_download.json");
+  const url = new URL("https://corsproxy.io/?" + encodeURIComponent("https://annas-archive.org/dyn/api/fast_download.json"));
   url.searchParams.set("md5", md5);
   url.searchParams.set("key", key);
   const response = await fetch(url);
