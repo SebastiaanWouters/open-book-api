@@ -58,7 +58,9 @@ export async function search(
 
     if (options?.type === "article") {
       const articleUrl = "https://annas-archive.org/md5/" + md5;
-      const articleHtml = await fetch(articleUrl).then((res) => res.text());
+      const articleHtml = await fetch(
+        "https://corsproxy.io/?" + encodeURIComponent(articleUrl),
+      ).then((res) => res.text());
       const doc = new DOMParser().parseFromString(articleHtml, "text/html");
       // Find the parent element with the class 'js-md5-codes-tabs'
       const parentElement = doc.querySelector('.js-md5-codes-tabs') as HTMLElement;
@@ -99,7 +101,7 @@ export async function download(
     const url = new URL("https://annas-archive.org/dyn/api/fast_download.json");
     url.searchParams.set("md5", id);
     url.searchParams.set("key", key);
-    const response = await fetch(url, { mode: 'no-cors' });
+    const response = await fetch(url);
 
     if (response.ok) {
       const result = await response.json();
@@ -114,7 +116,7 @@ export async function download(
     }
   } else {
     const url = new URL(`https://annas-archive.org/scidb/${id}`);
-    const response = await fetch(url, { mode: 'no-cors' });
+    const response = await fetch(url);
     if (response.ok) {
       const text = await response.text();
       const doc = new DOMParser().parseFromString(text, "text/html");
