@@ -5,6 +5,9 @@
   "tasks": {
     "dev": "deno test --watch mod_test.ts"
   },
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "dom.asynciterable", "deno.ns"]
+  },
   "license": "MIT",
   "imports": {
     "@std/assert": "jsr:@std/assert@1"
